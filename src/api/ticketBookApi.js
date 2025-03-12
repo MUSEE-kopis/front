@@ -1,5 +1,5 @@
 import { get, post, formDataPost, patch, del } from './base';
-import { TICKET_BOOK_URL, GENRE_URL } from '../constants/api';
+import { TICKET_BOOK_URL, GENRE_URL, ACTOR_URL } from '../constants/api';
 
 export const getTicketBooksApi = async () => {
   const response = await get(TICKET_BOOK_URL.ticketBooks);
@@ -43,5 +43,10 @@ export const postShareApi = async () => {
 
 export const getShareApi = async (identifier) => {
   const response = await get(TICKET_BOOK_URL.getShare(identifier));
+  return response;
+};
+
+export const getActorSearchApi = async (name) => {
+  const response = await get(ACTOR_URL.search(name));
   return response;
 };

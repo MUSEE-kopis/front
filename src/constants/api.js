@@ -42,3 +42,8 @@ export const PHOTO_URL = {
 export const GENRE_URL = {
   genre: '/genre',
 }
+
+export const ACTOR_URL = {
+  actor: '/actors',
+  search: (name) => `/actors/search?actorName=${name}`,
+}

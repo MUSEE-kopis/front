@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { getDetailPerformanceApi } from '../api/performanceApi';
-import { postTicketBookApi, updateTicketBookApi, postGenreApi } from '../api/ticketBookApi';
+import { postTicketBookApi, updateTicketBookApi, postGenreApi, getActorSearchApi } from '../api/ticketBookApi';
 import { postPhotosApi } from '../api/photosApi';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -31,6 +31,8 @@ export const useCreateBook = (id) => {
   const buttonDisabled = sendData.viewDate === '' || sendData.castMembers === '' || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
   const existEditImages = editData?.photos.length > 0;
   const selectedGenreDatas = selectedGenres.map(genre => GENRE_MAP[genre]).join(', ');
+  const [groupedCastMembers, setGroupedCastMembers] = useState({});
+  const [searchVal, setSearchVal] = useState('');
 
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
@@ -58,6 +60,7 @@ export const useCreateBook = (id) => {
       performanceId: response.data.id,
     }));
     setPerformanceData(response.data);
+    handleGroupCastMembers(response.data.castMembers);
   };
 
   const handleFileChange = (e) => {
@@ -139,8 +142,26 @@ export const useCreateBook = (id) => {
     }
   }
 
+  const handleGroupCastMembers = (castMembers) => {
+    const groupedCastMembers = castMembers.reduce((acc, member) => {
+      const role = member.role;
+      if (!acc[role]) {
+        acc[role] = [];
+      }
+      acc[role].push(member);
+      return acc;
+    }, {});
+    setGroupedCastMembers(groupedCastMembers);
+  }
+
+  const navigateToSearchCastMembers = () => {
+    navigate(`/search-cast-member/${performanceData.id}`, { state: { groupedCastMembers } });
+  }
+
   useEffect(() => {
-    fetchDetail(id || '');
+    if (id) {
+      fetchDetail(id);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -163,6 +184,12 @@ export const useCreateBook = (id) => {
       setEditId(null);
     }
   }, [editData]);
+
+  const handleCastMemberSearch = async () => {
+    console.log('searchVal: ', searchVal)
+    const response = await getActorSearchApi(searchVal);
+    console.log('response: ', response)
+  }
 
   return {
     existEditImages,
@@ -187,5 +214,8 @@ export const useCreateBook = (id) => {
     handleGenreSelect,
     handleGenreSave,
     handleGenreOpenModal,
+    navigateToSearchCastMembers,
+    handleCastMemberSearch,
+    setSearchVal,
   }
 }

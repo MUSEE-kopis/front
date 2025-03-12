@@ -75,7 +75,6 @@ const CreateBook = () => {
     previewImages,
     performanceData,
     sendData,
-    genreData,
     isGenreSelectModalOpen,
     selectedGenres,
     selectedGenreDatas,
@@ -89,8 +88,9 @@ const CreateBook = () => {
     handleGenreSelect,
     handleGenreSave,
     handleGenreOpenModal,
+    navigateToSearchCastMembers,
   } = useCreateBook(id);
-
+  
   return (
     <>
       <CreateBookHeader />
@@ -126,16 +126,19 @@ const CreateBook = () => {
               readOnly 
             />
           </InputItem>
-          <InputItem>
+          <InputItem $cursor='pointer' onClick={navigateToSearchCastMembers}>
             <Div $width='43px' $grow='0'>
               <CastIcon />
             </Div>
-            <Input 
+            <Text $size={13} $color={GRAY3}>
+              출연자 정보를 입력해주세요
+            </Text>
+            {/* <Input 
               type="text" 
               onChange={e => handleDataChange('castMembers', e.target.value)} 
               placeholder="출연자 정보를 입력해주세요" 
               value={sendData?.castMembers || ''}
-            />
+            /> */}
           </InputItem>
           <InputItem>
             <Div $width='43px' $grow='0'>
@@ -209,7 +212,7 @@ const CreateBook = () => {
               </PhotoContainer>
             ))}
           </Div>
-          {previewImages.length + editData?.photos.length < 3 && (
+          {previewImages.length + (editData?.photos?.length || 0) < 3 && (
             <AddPhoto onClick={handleAddPhoto} $backgroundColor={GRAY2} $border={`1px solid ${GRAY4}`} $radius='10px' $height='110px'>
               <Text $weight='SEMIBOLD' $color={GRAY5}>함께 기록할 사진을 추가해주세요</Text>
               <PlusIcon />
