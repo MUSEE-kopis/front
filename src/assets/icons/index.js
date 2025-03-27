@@ -32,3 +32,4 @@ export { ReactComponent as DeleteImageIcon } from './DeleteImageIcon.svg';
 export { ReactComponent as SafariShareIconIcon } from './SafariShareIcon.svg';
 export { ReactComponent as SafariAddHomeIcon } from './SafariAddHomeIcon.svg';
 export { ReactComponent as NicknameEditIcon } from './NicknameEditIcon.svg';
+export { ReactComponent as SelectedCastmemberIcon } from './SelectedCastmemberIcon.svg';

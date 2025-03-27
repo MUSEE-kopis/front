@@ -9,7 +9,7 @@ import { useCreateBook } from "../hooks/CreateBookHooks";
 
 const SearchCastMembers = () => {
   const { groupedCastMembers } = useLocation().state;
-  const { handleCastMemberSearch, searchVal, setSearchVal } = useCreateBook();
+  const { handleCastMemberSearch, selectedCastMembers, setSearchVal, handleSelectCastMember } = useCreateBook();
 
   return (
     <>
@@ -21,7 +21,7 @@ const SearchCastMembers = () => {
           handleSearch={handleCastMemberSearch}
         />
       </Div>
-      <SearchResult castMembers={groupedCastMembers} />
+      <SearchResult castMembers={groupedCastMembers} selectedCastMembers={selectedCastMembers} handleSelectCastMember={handleSelectCastMember} />
       <Navigation />
     </>
   ) 

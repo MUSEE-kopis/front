@@ -33,7 +33,9 @@ export const useCreateBook = (id) => {
   const selectedGenreDatas = selectedGenres.map(genre => GENRE_MAP[genre]).join(', ');
   const [groupedCastMembers, setGroupedCastMembers] = useState({});
   const [searchVal, setSearchVal] = useState('');
-
+  const [selectedCastMembers, setSelectedCastMembers] = useState({
+    '기타': [],
+  });
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter(g => g !== genre));
@@ -144,7 +146,7 @@ export const useCreateBook = (id) => {
 
   const handleGroupCastMembers = (castMembers) => {
     const groupedCastMembers = castMembers.reduce((acc, member) => {
-      const role = member.role;
+      const role = member.role ? member.role : '기타';
       if (!acc[role]) {
         acc[role] = [];
       }
@@ -191,6 +193,32 @@ export const useCreateBook = (id) => {
     console.log('response: ', response)
   }
 
+  const handleSelectCastMember = (member) => {
+    const role = member.role;
+    if (role) {
+      setSelectedCastMembers({
+        ...selectedCastMembers,
+        [role]: member.name
+      })
+    } else {
+      if (!selectedCastMembers['기타'].includes(member.name)) {
+        setSelectedCastMembers({
+          ...selectedCastMembers,
+          '기타': [...selectedCastMembers['기타'], member.name]
+        })
+      } else {
+        setSelectedCastMembers({
+          ...selectedCastMembers,
+          '기타': selectedCastMembers['기타'].filter(name => name !== member.name)
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    console.log('selectedCastMembers: ', selectedCastMembers)
+  }, [selectedCastMembers])
+
   return {
     existEditImages,
     buttonDisabled,
@@ -204,6 +232,7 @@ export const useCreateBook = (id) => {
     isGenreSelectModalOpen,
     selectedGenres,
     selectedGenreDatas,
+    selectedCastMembers,
     handleEdit,
     handleCreate,
     setSendData,
@@ -217,5 +246,6 @@ export const useCreateBook = (id) => {
     navigateToSearchCastMembers,
     handleCastMemberSearch,
     setSearchVal,
+    handleSelectCastMember,
   }
 }
