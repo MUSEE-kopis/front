@@ -40,8 +40,9 @@ export const Button = styled.button`
 export const Input = styled.input`
   width: 100%;
   border: solid 1px ${GRAY1};
+  background-color: ${ props => props.$backgroundColor || 'transparent'};
   height: ${ props => props.$height || 'auto'};
-  border-radius: 24px;
+  border-radius: ${ props => props.$radius || '24px'};
   padding: 0 19px;
   &:focus {
     outline: none;
