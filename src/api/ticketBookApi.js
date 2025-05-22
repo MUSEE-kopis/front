@@ -48,5 +48,5 @@ export const getShareApi = async (identifier) => {
 
 export const getActorSearchApi = async (name) => {
   const response = await get(ACTOR_URL.search(name));
-  return response;
+  return response.data;
 };

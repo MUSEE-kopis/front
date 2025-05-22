@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { Button, Div, Text } from "../../common/div"
 import { DIM2 } from "../../../constants/color";
-import { RankCheckedIcon } from "../../../assets/icons";
+import { CheckedIcon } from "../../../assets/icons";
 
 const Item = styled.div`
   height: 153px;
@@ -60,7 +60,7 @@ const Onboarding3 = ({ step, datas, selectedDatas, selectPerformance, username, 
                   {data.performanceName}
                 </Text>
                 <Filter $selected={isSelected}>
-                  {isSelected && <RankCheckedIcon />}
+                  {isSelected && <CheckedIcon />}
                 </Filter>
               </Item>
             )

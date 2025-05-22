@@ -5,7 +5,7 @@ import { GRAY1, GRAY4 } from "../../../constants/color";
 import { SearchBarIcon } from "../../../assets/icons";
 
 const SearchInput = styled.input`
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   background-color: transparent;
   width: 100%;
