@@ -16,14 +16,13 @@ const Search = () => {
     handleSearch,
   } = usePerformance();
 
-  console.log(popularPerformances)
-
   return (
     <>
       <Div $padding='20px 18px'>
         <SearchBar 
           setSearchVal={setSearchVal}
           handleSearch={handleSearch}
+          placeholder='작품명을 입력하세요'
         />
         {searchVal !== '' ? (
           <SearchResult 
