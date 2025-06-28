@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CreateBookHeader from "../components/pages/createBook/CreateBookHeader";
-import { CalendarIcon, CastIcon, LockIcon, MapIcon, ReviewIcon, PlusIcon, DeleteImageIcon, GenreIcon } from "../assets/icons";
+import { CalendarIcon, CastIcon, LockIcon, MapIcon, ReviewIcon, PlusIcon, DeleteImageIcon, GenreIcon, MemberPlusIcon } from "../assets/icons";
 import { UnselectCastMemberIcon } from "../assets/ticketbook";
 import { Div, Text, TextArea, Button } from "../components/common/div";
 import { GRAY2, GRAY3, GRAY4, GRAY5, NAVY } from "../constants/color";
@@ -116,6 +116,7 @@ const CreateBook = () => {
     handleCloseModal,
     goBackAddCastMemberModal,
     setAddCastMemberValue,
+    addCastMemberValue,
   } = useCreateBook(id);
 
   return (
@@ -154,20 +155,23 @@ const CreateBook = () => {
             />
           </InputItem>
           <InputItem $cursor='pointer' onClick={openCastMemberModal} >
-            <Div $width='43px' $grow='0'>
+            <Div $width='43px' $grow='0' $shrink='0'>
               <CastIcon />
             </Div>
-            {Object.values(selectedCastMembers).length > 0 ? (
-              <Div $flex={true} $width='100%' $overflow='scroll' $justify='flex-start'>
-                <Div $flex={true} $gap='10px' $maxWidth='fit-content'>
-                  {Object.entries(selectedCastMembers).map(([key, member]) => (
-                    <CastMemberLabel key={key} onClick={(event) => handleSelectCastMember(event, key, member)}>
-                      {member.name} 
-                      <UnselectCastMemberIcon />
-                    </CastMemberLabel>
-                  ))}
+              {Object.values(selectedCastMembers).length > 0 ? (
+                <Div $flex={true} $width='100%' $justify='space-between' $gap='20px' style={{minWidth: 0}}>
+                  <Div $flex={true} $overflow='scroll' $justify='flex-start' >
+                    <Div $flex={true} $gap='10px' $maxWidth='fit-content'>
+                      {Object.entries(selectedCastMembers).map(([key, member]) => (
+                        <CastMemberLabel key={key} onClick={(event) => handleSelectCastMember(event, key, member)}>
+                          {member.name} 
+                          <UnselectCastMemberIcon />
+                        </CastMemberLabel>
+                      ))}
+                    </Div>
+                  </Div>
+                  <MemberPlusIcon />
                 </Div>
-              </Div>
             ) : (
               <Text $size={13} $color={GRAY3}>
                 출연자 정보를 입력해주세요
@@ -295,6 +299,7 @@ const CreateBook = () => {
         goBackAddCastMemberModal={goBackAddCastMemberModal}
         handleCloseModal={handleCloseModal}
         setAddCastMemberValue={setAddCastMemberValue}
+        addCastMemberValue={addCastMemberValue}
       />
     </>
   )

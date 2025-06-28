@@ -19,6 +19,7 @@ export { ReactComponent as PlusIcon} from './createBook/PlusIcon.svg';
 export { ReactComponent as GenreIcon} from './createBook/GenreIcon.svg';
 export { ReactComponent as AddIcon} from './createBook/AddIcon.svg';
 export { ReactComponent as SelectedIcon} from './createBook/SelectedIcon.svg';
+export { ReactComponent as MemberPlusIcon} from './createBook/MemberPlusIcon.svg';
 export { ReactComponent as EmptyTicketBook } from './EmptyTicketBook.svg';
 export { ReactComponent as Rank1Icon } from './Rank1st.svg';
 export { ReactComponent as Rank2Icon } from './Rank2nd.svg';

@@ -23,7 +23,7 @@ const StyledButton = styled(Button)`
   border-radius: 10px;
 `;
 
-export const AddCastMemberModal = ({ isOpen = true, handleAddCastMember, goBackAddCastMemberModal, handleCloseModal, setAddCastMemberValue }) => {
+export const AddCastMemberModal = ({ isOpen = true, handleAddCastMember, goBackAddCastMemberModal, handleCloseModal, setAddCastMemberValue, addCastMemberValue }) => {
   return (
     <Modal $isOpen={isOpen} $dim={true} onClick={() => handleCloseModal('addCastMember')}>
       <Container onClick={e => e.stopPropagation()}>
@@ -33,7 +33,14 @@ export const AddCastMemberModal = ({ isOpen = true, handleAddCastMember, goBackA
             직접 배우 추가
           </Text>
         </Div>
-        <Input $backgroundColor={WHITE} $back $height='38px' $radius='8px' onChange={(e) => setAddCastMemberValue(e.target.value)} />
+        <Input 
+          $backgroundColor={WHITE} 
+          $back 
+          $height='38px' 
+          $radius='8px' 
+          value={addCastMemberValue}
+          onChange={(e) => setAddCastMemberValue(e.target.value)} 
+        />
         <Div $flex={true} $gap='5px' $margin='30px 0 0'>
           <StyledButton 
             onClick={handleAddCastMember}

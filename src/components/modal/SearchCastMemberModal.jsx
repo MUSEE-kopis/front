@@ -72,7 +72,7 @@ export const SearchCastMemberModal = ({ isOpen = true, setSearchVal, castMembers
         </Text>
         <SearchBar 
           setSearchVal={setSearchVal}
-          placeholder='직접 배우를 검색해보세요'
+          placeholder='배우 이름을 검색해보세요'
           handleSearch={handleCastMemberSearch}
         />
         <CastMemberList >

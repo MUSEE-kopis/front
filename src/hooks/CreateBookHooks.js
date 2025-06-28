@@ -24,7 +24,7 @@ export const useCreateBook = (id) => {
   const [sendData, setSendData] = useState({
     performanceId: '',
     viewDate: '',
-    castMembers: '',
+    castMembers: [],
     content: '',
     star: 0,
     visible: true,
@@ -212,7 +212,7 @@ export const useCreateBook = (id) => {
     const selectedCastMembersName = Object.values(selectedCastMembers).map(member => member.name);
     setSendData({
       ...sendData,
-      castMembers: selectedCastMembersName.join(', '),
+      castMembers: selectedCastMembersName,
     });
     setModalOpen({
       ...modalOpen,
@@ -238,18 +238,16 @@ export const useCreateBook = (id) => {
   }
 
   const handleAddCastMember = () => {
-    const selectedCastMembersName = Object.values(selectedCastMembers).map(member => member.name);
-    selectedCastMembersName.push(addCastMemberValue);
+    const customId = parseInt(Date.now());
+    const updatedSelectedCastMembers = {
+      ...selectedCastMembers,
+      [customId]: { name: addCastMemberValue, url: null }
+    };
+    
+    setSelectedCastMembers(updatedSelectedCastMembers);
+    setAddCastMemberValue('');
 
-    setSendData({
-      ...sendData,
-      castMembers: selectedCastMembersName.join(', '),
-    });
-
-    setModalOpen({
-      ...modalOpen,
-      addCastMember: false,
-    });
+    goBackAddCastMemberModal();
   }
 
   const handleCloseModal = (modal) => {
@@ -266,11 +264,15 @@ export const useCreateBook = (id) => {
   }, [searchVal])
 
   useEffect(() => {
-    console.log('selectedCastMembers: ', selectedCastMembers)
-    Object.entries(selectedCastMembers).map(([key, member]) => {
-      console.log('key: ', key, 'member: ', member);
+    setSendData({
+      ...sendData,
+      castMembers: Object.values(selectedCastMembers).map(member => member.name)
     })
   }, [selectedCastMembers])
+
+  useEffect(() => {
+    console.log('sendData: ', sendData)
+  }, [sendData])
 
   return {
     existEditImages,
@@ -308,5 +310,6 @@ export const useCreateBook = (id) => {
     handleCloseModal,
     goBackAddCastMemberModal,
     setAddCastMemberValue,
+    addCastMemberValue,
   }
 }
