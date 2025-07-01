@@ -32,7 +32,7 @@ export const useCreateBook = (id) => {
   });
   const [genreData, setGenreData] = useState([]);
   const [editId, setEditId] = useState(null);
-  const buttonDisabled = sendData.viewDate === '' || sendData.castMembers === '' || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
+  const buttonDisabled = sendData.viewDate === '' || sendData.castMembers.length === 0 || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
   const existEditImages = editData?.photos.length > 0;
   const selectedGenreDatas = selectedGenres.map(genre => GENRE_MAP[genre]).join(', ');
   const [searchVal, setSearchVal] = useState('');
@@ -204,21 +204,15 @@ export const useCreateBook = (id) => {
       delete newSelectedCastMembers[actorId];
       setSelectedCastMembers(newSelectedCastMembers);
     } else {
-      setSelectedCastMembers({...selectedCastMembers, [actorId]: {name: member.name, url: member.url}})
+      setSelectedCastMembers({...selectedCastMembers, [actorId]: {actorId, name: member.name, url: member.url}})
     }
   }
 
   const handleAddSelectedCastMember = () => {
-    const selectedCastMembersName = Object.values(selectedCastMembers).map(member => member.name);
-    setSendData({
-      ...sendData,
-      castMembers: selectedCastMembersName,
-    });
     setModalOpen({
       ...modalOpen,
       castMember: false,
     });
-
   }
 
   const openAddCastMemberModal = () => {
@@ -241,7 +235,7 @@ export const useCreateBook = (id) => {
     const customId = parseInt(Date.now());
     const updatedSelectedCastMembers = {
       ...selectedCastMembers,
-      [customId]: { name: addCastMemberValue, url: null }
+      [customId]: { actorId: customId, name: addCastMemberValue, url: '' }
     };
     
     setSelectedCastMembers(updatedSelectedCastMembers);
@@ -264,9 +258,10 @@ export const useCreateBook = (id) => {
   }, [searchVal])
 
   useEffect(() => {
+    const sendCastMembers = Object.values(selectedCastMembers);
     setSendData({
       ...sendData,
-      castMembers: Object.values(selectedCastMembers).map(member => member.name)
+      castMembers: sendCastMembers
     })
   }, [selectedCastMembers])
 

@@ -125,7 +125,7 @@ const ReceiptModal = ({ isOpen, closeModal, data }) => {
           </Title>
           <Title>
             <TitleLabel>Cast</TitleLabel>
-            {data?.reviewResponse?.castMembers}
+            {data?.reviewResponse?.castMembers.map(member => member.name).join(', ')}
           </Title>
         </TitleContainer>
         <Review >

@@ -48,7 +48,7 @@ const Receipt = ({ data, openModal }) => {
           {data?.venue}
         </Title>
         <Title>
-          {data?.reviewResponse.castMembers}
+          {data?.reviewResponse.castMembers.map(member => member.name).join(', ')}
         </Title>
       </Div>
       <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '74px', left: '12px'}}>
