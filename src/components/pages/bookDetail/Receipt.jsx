@@ -3,17 +3,16 @@ import styled from "styled-components";
 import { ReceiptSmallImage } from "../../../assets/ticketbook";
 import { Div, Text } from "../../common/div";
 import { StarSmallIcon, EmptyStarSmallIcon } from "../../../assets/icons";
-import { GENRE_MAP } from "../../../constants/content";
 
 const Container = styled.div`
   position: absolute;
-  top: 65px;
+  top: 78px;
   right: 17px;
   background-image: url(${ReceiptSmallImage});
   background-size: cover;
   background-position: center;
   width: 125px;
-  height: 215px;
+  height: 210px;
   cursor: pointer;
 `;
 
@@ -38,7 +37,7 @@ const Title = styled(Text)`
 const Receipt = ({ data, openModal }) => {
   return (
     <Container onClick={openModal}>
-      <Div $flex={true} $direction='column' $gap='1.6px' $align='start' style={{ position: 'absolute', top: '30px', left: '28px'}}>
+      <Div $flex={true} $direction='column' $gap='1.6px' $align='start' style={{ position: 'absolute', top: '38px', left: '24px'}}>
         <Title>
           {data?.viewDate}
         </Title>
@@ -49,13 +48,10 @@ const Receipt = ({ data, openModal }) => {
           {data?.venue}
         </Title>
         <Title>
-          {data?.genres.map(genre => GENRE_MAP[genre]).join(', ')}
-        </Title>
-        <Title>
-          {data?.reviewResponse.castMembers}
+          {data?.reviewResponse.castMembers.map(member => member.name).join(', ')}
         </Title>
       </Div>
-      <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '76px', left: '12px'}}>
+      <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '74px', left: '12px'}}>
         {data?.reviewResponse.content}
       </Text>
       <Div style={{ position: 'absolute', bottom: '66px', left: '32px'}}>

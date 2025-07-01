@@ -70,6 +70,7 @@ export const Div = styled.div`
   ${ props => props.$flex && 'display: flex;'};
   ${ props => props.$wrap && 'flex-wrap: wrap;'};
   flex-grow: ${({ $grow }) => $grow || 1};
+  flex-shrink: ${({ $shrink }) => $shrink || 1};
   position: relative;
   flex-direction: ${ props => props.$direction || 'row'};
   align-items: ${ props => props.$align || 'center'};
