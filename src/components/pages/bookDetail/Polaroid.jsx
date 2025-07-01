@@ -7,7 +7,7 @@ const Container = styled.div`
   width: 118px;
   position: absolute;
   left: 42px;
-  top: 86px;
+  top: 65px;
   cursor: pointer;
 `;
 

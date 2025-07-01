@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ReceiptSmallImage, ReceiptClipImage, ReceiptBarcodeImage } from "../../assets/ticketbook";
+import { ReceiptImage, ReceiptClipImage, ReceiptBarcodeImage } from "../../assets/ticketbook";
 import { Div, Text } from "../common/div";
 import { StarBigIcon, EmptyStarBigIcon } from "../../assets/ticketbook";
 import Modal from "./Modal";
@@ -20,7 +20,7 @@ const Container = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  background-image: url(${ReceiptSmallImage});
+  background-image: url(${ReceiptImage});
   filter: drop-shadow(2.049px 4.098px 10.244px rgba(0, 0, 0, 0.10)) drop-shadow(8.195px 14.342px 16.391px rgba(0, 0, 0, 0.09)) drop-shadow(18.439px 32.781px 22.537px rgba(0, 0, 0, 0.05)) drop-shadow(32.781px 59.416px 26.635px rgba(0, 0, 0, 0.01)) drop-shadow(51.22px 94.246px 30.732px rgba(0, 0, 0, 0.00));
 `;
 
@@ -60,6 +60,7 @@ const TitleLabel = styled(Text)`
   padding-right: 2px;
   font-weight: 600;
   width: 55px;
+  flex-shrink: 0;
 `;
 
 const Review = styled(Div)`
