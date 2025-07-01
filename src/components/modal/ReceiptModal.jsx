@@ -60,6 +60,7 @@ const TitleLabel = styled(Text)`
   padding-right: 2px;
   font-weight: 600;
   width: 55px;
+  flex-shrink: 0;
 `;
 
 const Review = styled(Div)`
