@@ -10,6 +10,7 @@ export { default as ReceiptBarcodeImage } from './ReceiptBarcode.png';
 export { ReactComponent as ReceiptClipImage } from './ReceiptClip.svg';
 export { default as BarcodeImage } from './BarcodeImage.png';
 export { BarcodeCover } from './BarcodeCover';
+export { ReactComponent as UnselectCastMemberIcon } from './UnselectCastMemberIcon.svg';
 export { ReactComponent as BarcodeBigImage } from './BarcodeBigImage.svg';
 export { ReactComponent as EmptyStarBigIcon } from './EmptyStarBigIcon.svg';
 export { ReactComponent as StarBigIcon } from './StarBigIcon.svg';

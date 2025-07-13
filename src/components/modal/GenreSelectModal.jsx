@@ -42,10 +42,10 @@ const StyledButton = styled(Button)`
   border-radius: 10px;
 `;
 
-export const GenreSelectModal = ({ isOpen = true, handleGenreSelect, selectedGenres, handleGenreSave }) => {
+export const GenreSelectModal = ({ isOpen = true, handleGenreSelect, selectedGenres, handleGenreSave, handleCloseModal }) => {
   return (
-    <Modal $isOpen={isOpen} $dim={true}>
-      <Container>
+    <Modal $isOpen={isOpen} $dim={true} onClick={() => handleCloseModal('genre')}>
+      <Container onClick={e => e.stopPropagation()}>
         <Text $color={GRAY5} $size={12} $align='left'>
           최대 3개까지 선택하실 수 있어요.
         </Text>

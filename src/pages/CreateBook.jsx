@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import CreateBookHeader from "../components/pages/createBook/CreateBookHeader";
-import { CalendarIcon, CastIcon, LockIcon, MapIcon, ReviewIcon, PlusIcon, DeleteImageIcon, GenreIcon } from "../assets/icons";
+import { CalendarIcon, CastIcon, LockIcon, MapIcon, ReviewIcon, PlusIcon, DeleteImageIcon, GenreIcon, MemberPlusIcon } from "../assets/icons";
+import { UnselectCastMemberIcon } from "../assets/ticketbook";
 import { Div, Text, TextArea, Button } from "../components/common/div";
 import { GRAY2, GRAY3, GRAY4, GRAY5, NAVY } from "../constants/color";
 import StarRatings from 'react-star-ratings';
 import { useParams } from "react-router-dom";
 import { useCreateBook } from "../hooks/CreateBookHooks";
 import { GenreSelectModal } from "../components/modal/GenreSelectModal";
+import { SearchCastMemberModal } from "../components/modal/SearchCastMemberModal";
+import { AddCastMemberModal } from "../components/modal/AddCastMemberModal";
 
 const Poster = styled.img`
   width: 166px;
@@ -65,6 +68,18 @@ const PhotoContainer = styled.div`
   }
 `;
 
+const CastMemberLabel = styled(Text)`
+  color: #000;
+  border: 1px solid #898A8D;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: rgba(217, 217, 217, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
 const CreateBook = () => {
   const id = useParams().performanceId || null;
   const {
@@ -75,10 +90,12 @@ const CreateBook = () => {
     previewImages,
     performanceData,
     sendData,
-    genreData,
-    isGenreSelectModalOpen,
+    modalOpen,
     selectedGenres,
     selectedGenreDatas,
+    searchCastMembers,
+    selectedCastMembers,
+    isSelected,
     handleEdit,
     handleCreate,
     setSendData,
@@ -88,7 +105,18 @@ const CreateBook = () => {
     handleDataChange,
     handleGenreSelect,
     handleGenreSave,
-    handleGenreOpenModal,
+    openGenreModal,
+    handleCastMemberSearch,
+    handleAddSelectedCastMember,
+    setSearchVal,
+    handleSelectCastMember,
+    openCastMemberModal,
+    openAddCastMemberModal,
+    handleAddCastMember,
+    handleCloseModal,
+    goBackAddCastMemberModal,
+    setAddCastMemberValue,
+    addCastMemberValue,
   } = useCreateBook(id);
   
   return (
@@ -126,16 +154,29 @@ const CreateBook = () => {
               readOnly 
             />
           </InputItem>
-          <InputItem>
-            <Div $width='43px' $grow='0'>
+          <InputItem $cursor='pointer' onClick={openCastMemberModal} >
+            <Div $width='43px' $grow='0' $shrink='0'>
               <CastIcon />
             </Div>
-            <Input 
-              type="text" 
-              onChange={e => handleDataChange('castMembers', e.target.value)} 
-              placeholder="출연자 정보를 입력해주세요" 
-              value={sendData?.castMembers || ''}
-            />
+              {Object.values(selectedCastMembers).length > 0 ? (
+                <Div $flex={true} $width='100%' $justify='space-between' $gap='20px' style={{minWidth: 0}}>
+                  <Div $flex={true} $overflow='scroll' $justify='flex-start' >
+                    <Div $flex={true} $gap='10px' $maxWidth='fit-content'>
+                      {Object.entries(selectedCastMembers).map(([key, member]) => (
+                        <CastMemberLabel key={key} onClick={(event) => handleSelectCastMember(event, key, member)}>
+                          {member.name} 
+                          <UnselectCastMemberIcon />
+                        </CastMemberLabel>
+                      ))}
+                    </Div>
+                  </Div>
+                  <MemberPlusIcon />
+                </Div>
+            ) : (
+              <Text $size={13} $color={GRAY3}>
+                출연자 정보를 입력해주세요
+              </Text>
+            )}
           </InputItem>
           <InputItem>
             <Div $width='43px' $grow='0'>
@@ -147,7 +188,7 @@ const CreateBook = () => {
               placeholder="공연 장르를 입력해주세요" 
               value={selectedGenreDatas}
               readOnly
-              onClick={() => handleGenreOpenModal()}
+              onClick={openGenreModal}
               style={{ cursor: 'pointer' }}
             />
           </InputItem>
@@ -234,10 +275,31 @@ const CreateBook = () => {
         </Div>
       </Div>
       <GenreSelectModal 
-        isOpen={isGenreSelectModalOpen} 
+        isOpen={modalOpen.genre} 
         handleGenreSelect={handleGenreSelect} 
         selectedGenres={selectedGenres} 
         handleGenreSave={handleGenreSave} 
+        handleCloseModal={handleCloseModal}
+      />
+      <SearchCastMemberModal 
+        isOpen={modalOpen.castMember} 
+        setSearchVal={setSearchVal}
+        castMembers={searchCastMembers}
+        handleCastMemberSearch={handleCastMemberSearch}
+        handleSelectCastMember={handleSelectCastMember} 
+        isSelected={isSelected}
+        openAddCastMemberModal={openAddCastMemberModal}
+        handleCloseModal={handleCloseModal}
+        handleAddSelectedCastMember={handleAddSelectedCastMember}
+      />
+      <AddCastMemberModal
+        isOpen={modalOpen.addCastMember}
+        openAddCastMemberModal={openAddCastMemberModal}
+        handleAddCastMember={handleAddCastMember}
+        goBackAddCastMemberModal={goBackAddCastMemberModal}
+        handleCloseModal={handleCloseModal}
+        setAddCastMemberValue={setAddCastMemberValue}
+        addCastMemberValue={addCastMemberValue}
       />
     </>
   )

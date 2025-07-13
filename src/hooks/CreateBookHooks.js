@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { getDetailPerformanceApi } from '../api/performanceApi';
-import { postTicketBookApi, updateTicketBookApi, postGenreApi } from '../api/ticketBookApi';
+import { postTicketBookApi, updateTicketBookApi, postGenreApi, getActorSearchApi } from '../api/ticketBookApi';
 import { postPhotosApi } from '../api/photosApi';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -16,11 +16,15 @@ export const useCreateBook = (id) => {
   const [performanceData, setPerformanceData] = useState({});
   const [uploadPhotos, setUploadPhotos] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [isGenreSelectModalOpen, setIsGenreSelectModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState({
+    castMember: false,
+    genre: false,
+    addCastMember: false,
+  });
   const [sendData, setSendData] = useState({
     performanceId: '',
     viewDate: '',
-    castMembers: '',
+    castMembers: [],
     content: '',
     star: 0,
     visible: true,
@@ -28,9 +32,13 @@ export const useCreateBook = (id) => {
   });
   const [genreData, setGenreData] = useState([]);
   const [editId, setEditId] = useState(null);
-  const buttonDisabled = sendData.viewDate === '' || sendData.castMembers === '' || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
+  const buttonDisabled = sendData.viewDate === '' || sendData.castMembers.length === 0 || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
   const existEditImages = editData?.photos.length > 0;
   const selectedGenreDatas = selectedGenres.map(genre => GENRE_MAP[genre]).join(', ');
+  const [searchVal, setSearchVal] = useState('');
+  const [searchCastMembers, setSearchCastMembers] = useState([]);
+  const [selectedCastMembers, setSelectedCastMembers] = useState({});
+  const [addCastMemberValue, setAddCastMemberValue] = useState('');
 
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
@@ -44,11 +52,17 @@ export const useCreateBook = (id) => {
 
   const handleGenreSave = () => {
     setGenreData(selectedGenres);
-    setIsGenreSelectModalOpen(false);
+    setModalOpen({
+      ...modalOpen,
+      genre: false,
+    });
   }
 
-  const handleGenreOpenModal = () => {
-    setIsGenreSelectModalOpen(true);
+  const openGenreModal = () => {
+    setModalOpen({
+      ...modalOpen,
+      genre: true,
+    });
   }
 
   const fetchDetail = async (performanceId) => {
@@ -58,6 +72,7 @@ export const useCreateBook = (id) => {
       performanceId: response.data.id,
     }));
     setPerformanceData(response.data);
+    setSearchCastMembers(response.data.castMembers)
   };
 
   const handleFileChange = (e) => {
@@ -139,8 +154,17 @@ export const useCreateBook = (id) => {
     }
   }
 
+  const openCastMemberModal = () => {
+    setModalOpen({
+      ...modalOpen,
+      castMember: true,
+    });
+  }
+
   useEffect(() => {
-    fetchDetail(id || '');
+    if (id) {
+      fetchDetail(id);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -164,6 +188,87 @@ export const useCreateBook = (id) => {
     }
   }, [editData]);
 
+  const handleCastMemberSearch = async () => {
+    const response = await getActorSearchApi(searchVal);
+    setSearchCastMembers(response)
+  }
+
+  const isSelected = (actorId) => {
+    return selectedCastMembers[actorId]
+  }
+
+  const handleSelectCastMember = (event, actorId, member) => {
+    event.stopPropagation();
+    if (isSelected(actorId)) {
+      const newSelectedCastMembers = {...selectedCastMembers};
+      delete newSelectedCastMembers[actorId];
+      setSelectedCastMembers(newSelectedCastMembers);
+    } else {
+      setSelectedCastMembers({...selectedCastMembers, [actorId]: {actorId, name: member.name, url: member.url}})
+    }
+  }
+
+  const handleAddSelectedCastMember = () => {
+    setModalOpen({
+      ...modalOpen,
+      castMember: false,
+    });
+  }
+
+  const openAddCastMemberModal = () => {
+    setModalOpen({
+      ...modalOpen,
+      castMember: false,
+      addCastMember: true,
+    });
+  }
+
+  const goBackAddCastMemberModal = () => {
+    setModalOpen({
+      ...modalOpen,
+      castMember: true,
+      addCastMember: false,
+    });
+  }
+
+  const handleAddCastMember = () => {
+    const customId = parseInt(Date.now());
+    const updatedSelectedCastMembers = {
+      ...selectedCastMembers,
+      [customId]: { actorId: customId, name: addCastMemberValue, url: '' }
+    };
+    
+    setSelectedCastMembers(updatedSelectedCastMembers);
+    setAddCastMemberValue('');
+
+    goBackAddCastMemberModal();
+  }
+
+  const handleCloseModal = (modal) => {
+    setModalOpen({
+      ...modalOpen,
+      [modal]: false,
+    });
+  }
+
+  useEffect(() => {
+    if (!searchVal) {
+      setSearchCastMembers(performanceData.castMembers)
+    }
+  }, [searchVal])
+
+  useEffect(() => {
+    const sendCastMembers = Object.values(selectedCastMembers);
+    setSendData({
+      ...sendData,
+      castMembers: sendCastMembers
+    })
+  }, [selectedCastMembers])
+
+  useEffect(() => {
+    console.log('sendData: ', sendData)
+  }, [sendData])
+
   return {
     existEditImages,
     buttonDisabled,
@@ -174,9 +279,12 @@ export const useCreateBook = (id) => {
     genreData,
     previewImages,
     performanceData,
-    isGenreSelectModalOpen,
     selectedGenres,
     selectedGenreDatas,
+    selectedCastMembers,
+    modalOpen,
+    searchCastMembers,
+    isSelected,
     handleEdit,
     handleCreate,
     setSendData,
@@ -186,6 +294,17 @@ export const useCreateBook = (id) => {
     handleDataChange,
     handleGenreSelect,
     handleGenreSave,
-    handleGenreOpenModal,
+    openGenreModal,
+    handleCastMemberSearch,
+    setSearchVal,
+    handleSelectCastMember,
+    handleAddSelectedCastMember,
+    openCastMemberModal,
+    openAddCastMemberModal,
+    handleAddCastMember,
+    handleCloseModal,
+    goBackAddCastMemberModal,
+    setAddCastMemberValue,
+    addCastMemberValue,
   }
 }

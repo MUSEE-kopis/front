@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Button, Div, Text } from "../../common/div"
-import { Rank1OnboardingIcon, Rank2OnboardingIcon, Rank3OnboardingIcon, RankCheckedIcon } from "../../../assets/icons";
+import { Rank1OnboardingIcon, Rank2OnboardingIcon, Rank3OnboardingIcon, CheckedIcon } from "../../../assets/icons";
 import { GRAY0, GRAY4, DIM } from "../../../constants/color";
 
 const RankButton = styled(Button)`
@@ -47,7 +47,7 @@ const Onboarding2 = ({ username, setStep, rankType, setRankType }) => {
             어떤 작품을 볼 지 고민돼요
           </Text>
           <Filter $selected={rankType === 1}>
-            {rankType === 1 && <RankCheckedIcon />}
+            {rankType === 1 && <CheckedIcon />}
           </Filter> 
         </RankButton>
         <RankButton onClick={() => setRankType(2)}>
@@ -57,7 +57,7 @@ const Onboarding2 = ({ username, setStep, rankType, setRankType }) => {
             종종 뮤지컬을 관람하며 힐링해요
           </Text>
           <Filter $selected={rankType === 2}>
-            {rankType === 2 && <RankCheckedIcon />}
+            {rankType === 2 && <CheckedIcon />}
           </Filter> 
         </RankButton>
         <RankButton onClick={() => setRankType(3)}>
@@ -67,7 +67,7 @@ const Onboarding2 = ({ username, setStep, rankType, setRankType }) => {
             n차 관람도 즐기는 뮤덕이에요 
           </Text>
           <Filter $selected={rankType === 3}>
-            {rankType === 3 && <RankCheckedIcon />}
+            {rankType === 3 && <CheckedIcon />}
           </Filter>
         </RankButton>
         <Button 

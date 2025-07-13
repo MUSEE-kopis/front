@@ -5,7 +5,7 @@ import { GRAY1, GRAY4 } from "../../../constants/color";
 import { SearchBarIcon } from "../../../assets/icons";
 
 const SearchInput = styled.input`
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   background-color: transparent;
   width: 100%;
@@ -14,18 +14,23 @@ const SearchInput = styled.input`
   }
 `;  
 
-const SearchBar = ({ setSearchVal, handleSearch }) => {
+const SearchBar = ({ setSearchVal, handleSearch = () => {}, placeholder }) => {
   return (
-    <Div $backgroundColor={GRAY1} $radius='8px' $height='40px' $flex={true} $justify='start' $padding='0 15px' $gap='10px'>
-      <SearchInput 
-        type="search"
-        name='performance-search' 
-        placeholder="작품명을 입력하세요" 
-        onChange={(e) => setSearchVal(e.target.value)}
-      />
+    <Div $width='100%' $backgroundColor={GRAY1} $radius='8px' $height='40px' $flex={true} $justify='start' $padding='0 15px' $gap='10px'>
       <SearchBarIcon
         onClick={handleSearch}
         style={{ cursor: 'pointer' }}
+      />
+      <SearchInput 
+        type="search"
+        name='performance-search' 
+        placeholder={placeholder} 
+        onChange={(e) => setSearchVal(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
       />
     </Div>
   )
