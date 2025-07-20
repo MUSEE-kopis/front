@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { ReceiptSmallImage } from "../../../assets/ticketbook";
 import { Div, Text } from "../../common/div";
 import { StarSmallIcon, EmptyStarSmallIcon } from "../../../assets/icons";
+import { GENRE_MAP } from "../../../constants/content";
 
 const Container = styled.div`
   position: absolute;
-  top: 78px;
+  top: 65px;
   right: 17px;
   background-image: url(${ReceiptSmallImage});
   background-size: cover;
-  background-position: center;
   width: 125px;
   height: 210px;
   cursor: pointer;
@@ -37,7 +37,7 @@ const Title = styled(Text)`
 const Receipt = ({ data, openModal }) => {
   return (
     <Container onClick={openModal}>
-      <Div $flex={true} $direction='column' $gap='1.6px' $align='start' style={{ position: 'absolute', top: '38px', left: '24px'}}>
+      <Div $flex={true} $direction='column' $gap='1.6px' $align='start' style={{ position: 'absolute', top: '35px', left: '28px'}}>
         <Title>
           {data?.viewDate}
         </Title>
@@ -50,11 +50,14 @@ const Receipt = ({ data, openModal }) => {
         <Title>
           {data?.reviewResponse.castMembers.map(member => member.name).join(', ')}
         </Title>
+        <Title>
+          {data?.genres.map(genre => GENRE_MAP[genre]).join(', ')}
+        </Title>
       </Div>
-      <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '74px', left: '12px'}}>
+      <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '80px', left: '10px'}}>
         {data?.reviewResponse.content}
       </Text>
-      <Div style={{ position: 'absolute', bottom: '66px', left: '32px'}}>
+      <Div style={{ position: 'absolute', bottom: '55px', left: '32px'}}>
         {Array.from({ length: data?.reviewResponse.star }, (_, i) => (
           <StarRate key={i} />
         ))}
