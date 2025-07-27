@@ -37,7 +37,7 @@ const Title = styled(Text)`
 const Receipt = ({ data, openModal }) => {
   return (
     <Container onClick={openModal}>
-      <Div $flex={true} $direction='column' $gap='1.6px' $align='start' style={{ position: 'absolute', top: '35px', left: '28px'}}>
+      <Div $flex={true} $direction='column' $gap='2.2px' $align='start' style={{ position: 'absolute', top: '35px', left: '28px'}}>
         <Title>
           {data?.viewDate}
         </Title>
@@ -48,10 +48,10 @@ const Receipt = ({ data, openModal }) => {
           {data?.venue}
         </Title>
         <Title>
-          {data?.reviewResponse.castMembers.map(member => member.name).join(', ')}
+          {data?.genres.map(genre => GENRE_MAP[genre]).join(', ')}
         </Title>
         <Title>
-          {data?.genres.map(genre => GENRE_MAP[genre]).join(', ')}
+          {data?.reviewResponse.castMembers.map(member => member.name).join(', ')}
         </Title>
       </Div>
       <Text $width='84px' $height='50px' $size={3.5} $align='start' $whiteSpace='wrap' style={{position: 'absolute', top: '80px', left: '10px'}}>
