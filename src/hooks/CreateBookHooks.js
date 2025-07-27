@@ -34,11 +34,15 @@ export const useCreateBook = (id) => {
   const [editId, setEditId] = useState(null);
   const buttonDisabled = sendData.viewDate === '' || sendData.castMembers.length === 0 || sendData.content === '' || sendData.star === 0 || genreData.length === 0;
   const existEditImages = editData?.photos.length > 0;
-  const selectedGenreDatas = selectedGenres.map(genre => GENRE_MAP[genre]).join(', ');
+  const [selectedGenreDatas, setSelectedGenreDatas] = useState('');
   const [searchVal, setSearchVal] = useState('');
   const [searchCastMembers, setSearchCastMembers] = useState([]);
   const [selectedCastMembers, setSelectedCastMembers] = useState({});
   const [addCastMemberValue, setAddCastMemberValue] = useState('');
+
+  useEffect(() => {
+    setSelectedGenreDatas(genreData.map(genre => GENRE_MAP[genre]).join(', '));
+  }, [genreData])
 
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
@@ -144,10 +148,15 @@ export const useCreateBook = (id) => {
         const uploadPhotoUrls = await handleUploadPhotos();
         photos.push(...uploadPhotoUrls.photos);
       }
-      sendData.photos = photos;
-      const response = await updateTicketBookApi(editId, sendData);
+      const { performanceId, ...dataWithoutPerformanceId } = sendData;
+      dataWithoutPerformanceId.photos = photos;
+      const response = await updateTicketBookApi(editId, dataWithoutPerformanceId);
+
       if (response.status === 200 || response.status === 201) {
-        navigate('/ticket');
+        const genreResponse = await postGenreApi(genreData, performanceId);
+        if (genreResponse.status === 200 || genreResponse.status === 201) {
+          navigate('/ticket');
+        }
       }
     } catch (error) {
       console.error(error);
@@ -173,6 +182,16 @@ export const useCreateBook = (id) => {
 
       const parsedDate = parse(editData.viewDate, 'yyyy-MM-dd a hh:mm', new Date());
       const formattedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm");
+
+      // selectedCastMembers 초기화
+      const initialSelectedCastMembers = {};
+      editData.reviewResponse.castMembers.forEach(member => {
+        initialSelectedCastMembers[member.actorId] = member;
+      });
+      setSelectedCastMembers(initialSelectedCastMembers);
+
+      setGenreData(editData.genres);
+      setSelectedGenres(editData.genres);
 
       setSendData({
         performanceId: editData.performanceId,
@@ -258,12 +277,14 @@ export const useCreateBook = (id) => {
   }, [searchVal])
 
   useEffect(() => {
-    const sendCastMembers = Object.values(selectedCastMembers);
-    setSendData({
-      ...sendData,
-      castMembers: sendCastMembers
-    })
-  }, [selectedCastMembers])
+    if (!editData) { // editData가 없을 때만 실행
+      const sendCastMembers = Object.values(selectedCastMembers);
+      setSendData({
+        ...sendData,
+        castMembers: sendCastMembers
+      })
+    }
+  }, [selectedCastMembers, editData])
 
   useEffect(() => {
     console.log('sendData: ', sendData)
