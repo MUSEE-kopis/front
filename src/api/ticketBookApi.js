@@ -16,6 +16,11 @@ export const postGenreApi = async (genres, performanceId) => {
   return response;
 };
 
+export const patchGenreApi = async (genres, performanceId) => {
+  const response = await patch(GENRE_URL.genre, { genres, performanceId });
+  return response;
+};
+
 export const getTicketBookDetailApi = async (ticketBookId) => {
   const response = await get(TICKET_BOOK_URL.detail(ticketBookId));
   return response;
