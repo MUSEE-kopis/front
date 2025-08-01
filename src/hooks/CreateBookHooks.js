@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { getDetailPerformanceApi } from '../api/performanceApi';
-import { postTicketBookApi, updateTicketBookApi, postGenreApi, getActorSearchApi } from '../api/ticketBookApi';
+import { postTicketBookApi, updateTicketBookApi, postGenreApi, getActorSearchApi, patchGenreApi } from '../api/ticketBookApi';
 import { postPhotosApi } from '../api/photosApi';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -153,7 +153,7 @@ export const useCreateBook = (id) => {
       const response = await updateTicketBookApi(editId, dataWithoutPerformanceId);
 
       if (response.status === 200 || response.status === 201) {
-        const genreResponse = await postGenreApi(genreData, performanceId);
+        const genreResponse = await patchGenreApi(genreData, performanceId);
         if (genreResponse.status === 200 || genreResponse.status === 201) {
           navigate('/ticket');
         }
