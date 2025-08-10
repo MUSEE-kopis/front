@@ -15,6 +15,16 @@ const Image = styled.img`
   object-fit: cover;
 `;  
 
+const CarouselContainer = styled.div`
+  .slick-track {
+    margin-left: 0 !important;
+  }
+  
+  .slick-list {
+    padding-left: 0 !important;
+  }
+`;
+
 const Carousel = ({ type, data, goDetail }) => {
   const settings = {
     dots: false,
@@ -22,6 +32,8 @@ const Carousel = ({ type, data, goDetail }) => {
     speed: 500,
     slidesToShow: 3.2,
     slidesToScroll: 1,
+    centerMode: false,
+    centerPadding: '0px',
   };
 
   const { username } = useSelector(state => state.user.value);
@@ -37,23 +49,25 @@ const Carousel = ({ type, data, goDetail }) => {
         {CURATION_FEED[type].title}
       </Text>
       <Div $width='100%' $overflow='hidden'>
-        <Slider {...settings}>
-          {data.length > 0 && data.map((performance, index) => (
-            <Div 
-              $padding='0 12px 0 0' 
-              $cursor={true} 
-              key={index}
-              onClick={() => handleClick(performance.id)}
-            >
-              <Div $cursor={true} $height='153px'>
-                <Image src={performance.poster}  />
-                <Text $align='start' $margin='7px 0 0' $size={12} $weight='MEDIUM'>
-                  {performance.performanceName}
-                </Text>
+        <CarouselContainer>
+          <Slider {...settings}>
+            {data.length > 0 && data.map((performance, index) => (
+              <Div 
+                $padding='0 12px 0 0' 
+                $cursor={true} 
+                key={index}
+                onClick={() => handleClick(performance.id)}
+              >
+                <Div $cursor={true} $height='153px'>
+                  <Image src={performance.poster}  />
+                  <Text $align='start' $margin='7px 0 0' $size={12} $weight='MEDIUM'>
+                    {performance.performanceName}
+                  </Text>
+                </Div>
               </Div>
-            </Div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </CarouselContainer>
       </Div>
     </Div>
   )
