@@ -80,4 +80,9 @@ export const GENRE_MAP = {
   RELIGION: "종교",
   CLASSIC_NOVEL: "고전소설",
   TALK_CONCERT: "토크콘서트",
+  ORIGINAL_OR_INTERNATIONAL: "오리지널/내한공연",
+  CREATIVE_MUSICAL: "창작 뮤지컬",
+  NUMBER_PERFORMANCE: "넘버별 퍼포먼스",
+  ETC_MUSICAL: "기타 뮤지컬",
+  LICENSE: "라이선스"
 };
