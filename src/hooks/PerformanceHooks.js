@@ -1,12 +1,12 @@
 import { useEffect, useState} from "react";
 import { useNavigate } from "react-router";
-import { getNowPerformanceApi, getPopularPerformanceApi, getRecommendPerformanceApi, getRandomPerformanceApi, getSearchPerformanceApi } from "../api/performanceApi";
+import { getCustomPerformanceApi, getPopularPerformanceApi, getRecommendPerformanceApi, getRandomPerformanceApi, getSearchPerformanceApi } from "../api/performanceApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setPopularDatas } from "../store/slices/popularSlice";
 
 export const usePerformance = () => {
   const navigate = useNavigate();
-  const [nowPerformances, setNowPerformances] = useState([]);
+  const [customPerformances, setCustomPerformances] = useState([]);
   const [recommendPerformances, setRecommendPerformances] = useState([]);
   const [randomPerformances, setRandomPerformances] = useState([]);
   const { popularPerformances } = useSelector(state => state.popular.value);
@@ -14,10 +14,10 @@ export const usePerformance = () => {
   const [searchResult, setSearchResult] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchNowPerformances = async () => {
+  const fetchCustomPerformances = async () => {
     try {
-      const response = await getNowPerformanceApi();
-      setNowPerformances(response.data);
+      const response = await getCustomPerformanceApi();
+      setCustomPerformances(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -65,7 +65,7 @@ export const usePerformance = () => {
   }
 
   useEffect(() => {
-    fetchNowPerformances();
+    fetchCustomPerformances();
     fetchRecommendPerformances();
     fetchRandomPerformances();
     fetchPopularPerformances();
@@ -81,7 +81,7 @@ export const usePerformance = () => {
   return {
     searchResult,
     searchVal,
-    nowPerformances,
+    customPerformances,
     randomPerformances,
     recommendPerformances,
     popularPerformances,

@@ -1,11 +1,6 @@
 import { post, get, del, getBlob } from './base';
 import { PERFORMANCE_URL, USER_GENRE_URL } from '../constants/api';
 
-export const getNowPerformanceApi = async () => {
-  const response = await get(PERFORMANCE_URL.state, {params: {state: '공연중'}});
-  return response;
-};
-
 export const getPopularPerformanceApi = async () => {
   const response = await get(PERFORMANCE_URL.popular);
   return response;
@@ -18,6 +13,11 @@ export const getRecommendPerformanceApi = async () => {
 
 export const getRandomPerformanceApi = async () => {
   const response = await get(PERFORMANCE_URL.random);
+  return response;
+};
+
+export const getCustomPerformanceApi = async () => {
+  const response = await get(PERFORMANCE_URL.custom);
   return response;
 };
 
@@ -51,8 +51,8 @@ export const getPosterApi = async (performanceId) => {
   return response;
 };
 
-export const getSearchPerformanceApi = async (search) => {
-  const response = await get(PERFORMANCE_URL.search, {params: {search}});
+export const getSearchPerformanceApi = async (keyword) => {
+  const response = await get(PERFORMANCE_URL.search, {params: {keyword}});
   return response;
 };
 

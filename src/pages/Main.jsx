@@ -9,7 +9,7 @@ import { PwaGuide } from "../components/common/PwaGuide";
 
 const Main = () => {
   const { 
-    nowPerformances,
+    customPerformances,
     randomPerformances,
     recommendPerformances,
     handleGoDetail,
@@ -27,12 +27,12 @@ const Main = () => {
         />
         <Carousel 
           type='curation2' 
-          data={nowPerformances}
+          data={randomPerformances}
           goDetail={handleGoDetail}
         />
         <Carousel 
           type='curation3'
-          data={randomPerformances}
+          data={customPerformances}
           goDetail={handleGoDetail}
         />
       </Div>

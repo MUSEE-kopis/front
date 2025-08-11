@@ -3,6 +3,7 @@ export const USER_GENRE_URL = {
 }
 
 export const PERFORMANCE_URL = {
+  performance: '/performances',
   detail: (performanceId) => `/performances/${performanceId}`,
   state: '/performances/state',
   random: '/performances/random',
@@ -12,6 +13,7 @@ export const PERFORMANCE_URL = {
   myLike: '/performances/like',
   poster: (performanceId) => `/performances/poster/${performanceId}`,
   search: '/performances/search',
+  custom: '/performances/custom',
 }
 
 export const REVIEW_URL = {
