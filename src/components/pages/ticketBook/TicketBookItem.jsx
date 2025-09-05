@@ -5,10 +5,11 @@ import { GRAY2 } from "../../../constants/color";
 import useColorThief from "use-color-thief";
 
 const Container = styled(Div)`
-  height: 230px;
+  height: 240px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10px;
+  justify-content: flex-start;
   flex-grow: 0;
   width: calc((100% - 16px) / 2);
   cursor: pointer;
@@ -52,7 +53,7 @@ const TicketBookItem = ({ data, getPoster, goDetail }) => {
           style={{ height: "100%", width: "calc(100% - 11px)" }} 
         />
       </Div>
-      <Text $size={12} $weight='MEDIUM'>
+      <Text $size={12} $weight='MEDIUM' $whiteSpace='wrap' $width='100%' $height='30px' >
         {data?.performanceName}
       </Text>
     </Container>
