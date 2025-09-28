@@ -26,6 +26,7 @@ export const AUTH_URL = {
   kakao: '/oauth/login/kakao',
   userInfo: '/oauth/mypage',
   nickname: (nickname) => `/oauth/username?username=${nickname}`,
+  deleteUser: '/oauth/user',
 }
 
 export const TICKET_BOOK_URL = {

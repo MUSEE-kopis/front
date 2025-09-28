@@ -39,6 +39,7 @@ export const useCreateBook = (id) => {
   const [searchCastMembers, setSearchCastMembers] = useState([]);
   const [selectedCastMembers, setSelectedCastMembers] = useState({});
   const [addCastMemberValue, setAddCastMemberValue] = useState('');
+  const [isEditDataInitialized, setIsEditDataInitialized] = useState(false);
 
   useEffect(() => {
     setSelectedGenreDatas(genreData.map(genre => GENRE_MAP[genre]).join(', '));
@@ -81,10 +82,22 @@ export const useCreateBook = (id) => {
 
   const handleFileChange = (e) => {
     const fileArr = Array.from(e.target.files);
-    setUploadPhotos(fileArr);
-
-    const fileURLs = fileArr.map(file => URL.createObjectURL(file));
+    const currentPhotoCount = editData?.photos?.length || 0; // 기존 사진 개수
+    const maxNewPhotos = 3 - currentPhotoCount; // 추가 가능한 사진 개수
+    
+    // 선택된 파일이 제한을 초과하는 경우 제한만큼만 선택
+    const limitedFiles = fileArr.slice(0, maxNewPhotos);
+    
+    if (fileArr.length > maxNewPhotos) {
+      alert(`최대 ${3}장까지만 업로드할 수 있습니다. ${maxNewPhotos}장만 선택되었습니다.`);
+    }
+    
+    setUploadPhotos(limitedFiles);
+    const fileURLs = limitedFiles.map(file => URL.createObjectURL(file));
     setPreviewImages(fileURLs);
+    
+    // 파일 input 초기화 (같은 파일을 다시 선택할 수 있도록)
+    e.target.value = '';
   }
 
   const handleAddPhoto = () => {
@@ -178,7 +191,10 @@ export const useCreateBook = (id) => {
 
   useEffect(() => {
     if (editData) {
+      setIsEditDataInitialized(false); // 초기화 시작
       setEditId(editData.id);
+
+      console.log('editData: ', editData)
 
       const parsedDate = parse(editData.viewDate, 'yyyy-MM-dd a hh:mm', new Date());
       const formattedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm");
@@ -202,10 +218,21 @@ export const useCreateBook = (id) => {
         visible: editData.reviewResponse.visible,
         photos: editData.photos,
       });
+      
+      setIsEditDataInitialized(true); // 초기화 완료
     } else {
       setEditId(null);
+      setIsEditDataInitialized(false);
     }
   }, [editData]);
+
+  useEffect(() => {
+    console.log('sendData: ', sendData)
+  }, [sendData])
+
+  useEffect(() => {
+    console.log('selectedCastMembers: ', selectedCastMembers)
+  }, [selectedCastMembers])
 
   const handleCastMemberSearch = async () => {
     const response = await getActorSearchApi(searchVal);
@@ -276,15 +303,17 @@ export const useCreateBook = (id) => {
     }
   }, [searchVal])
 
+  // selectedCastMembers 변경 시 sendData.castMembers 업데이트
   useEffect(() => {
-    if (!editData) { // editData가 없을 때만 실행
+    // editData가 없거나 (생성 모드) 또는 editData 초기화가 완료된 후 (수정 모드)
+    if (Object.keys(selectedCastMembers).length > 0 && (!editData || (editData && isEditDataInitialized))) {
       const sendCastMembers = Object.values(selectedCastMembers);
-      setSendData({
-        ...sendData,
+      setSendData(prev => ({
+        ...prev,
         castMembers: sendCastMembers
-      })
+      }))
     }
-  }, [selectedCastMembers, editData])
+  }, [selectedCastMembers, isEditDataInitialized])
 
   useEffect(() => {
     console.log('sendData: ', sendData)

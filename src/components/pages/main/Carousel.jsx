@@ -57,10 +57,16 @@ const Carousel = ({ type, data, goDetail }) => {
                 $cursor={true} 
                 key={index}
                 onClick={() => handleClick(performance.id)}
+                title={performance.performanceName}
               >
                 <Div $cursor={true} $height='153px'>
                   <Image src={performance.poster}  />
-                  <Text $align='start' $margin='7px 0 0' $size={12} $weight='MEDIUM'>
+                  <Text 
+                    $align='start' 
+                    $margin='7px 0 0' 
+                    $size={12} 
+                    $weight='MEDIUM'
+                  >
                     {performance.performanceName}
                   </Text>
                 </Div>
