@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Div, Text } from "../../common/div";
-import { BLACK, GRAY5 } from "../../../constants/color";
+import { BLACK, GRAY5, RED } from "../../../constants/color";
 import { GoIcon } from "../../../assets/icons";
 
 const LinkButton = styled(Link)`
@@ -13,7 +13,7 @@ const LinkButton = styled(Link)`
   height: 26px;
 `;
 
-const Links = ({ logout }) => {
+const Links = ({ logout, handleShowDeleteUser }) => {
   const handleClick = () => {
     window.location.href = 'https://www.notion.so/MUSEE-11b0cdd700f78074b473f3759010de3e?pvs=4';
   }
@@ -30,6 +30,10 @@ const Links = ({ logout }) => {
       </LinkButton>
       <LinkButton onClick={() => logout()}>
         <Text $size={12} $color={GRAY5} $weight='MEDIUM'>로그아웃</Text>
+        <GoIcon />
+      </LinkButton>
+      <LinkButton onClick={handleShowDeleteUser}>
+        <Text $size={12} $color={RED} $weight='MEDIUM'>회원 탈퇴</Text>
         <GoIcon />
       </LinkButton>
     </Div>

@@ -5,6 +5,7 @@ import Navigation from "../components/common/Navigation";
 import Profile from "../components/pages/mypage/Profile";
 import Links from "../components/pages/mypage/Links";
 import { NicknameEditModal }from "../components/modal/NicknmaeEdiModal";
+import { DeleteUserModal } from "../components/modal/DeleteUserModal";
 import { useAuth } from "../hooks/AuthHooks";
 
 const Mypage = () => {
@@ -12,6 +13,7 @@ const Mypage = () => {
     username, 
     userTier, 
     isShowNicknameEdit,
+    isShowDeleteUser,
     nickname,
     nicknameDisabled,
     setNickname,
@@ -19,6 +21,9 @@ const Mypage = () => {
     handleShowNicknameEdit,
     handleNicknameEdit,
     handleCloseNicknameEdit,
+    handleShowDeleteUser,
+    handleCloseDeleteUser,
+    handleDeleteUser,
   } = useAuth();
   return (
     <>
@@ -31,6 +36,7 @@ const Mypage = () => {
         />
         <Links 
           logout={handleLogout}
+          handleShowDeleteUser={handleShowDeleteUser}
         />
       </Div>
       <NicknameEditModal 
@@ -40,6 +46,11 @@ const Mypage = () => {
         nickname={nickname}
         setNickname={setNickname}
         nicknameDisabled={nicknameDisabled}
+      />
+      <DeleteUserModal 
+        isOpen={isShowDeleteUser}
+        closeModal={handleCloseDeleteUser}
+        handleDeleteUser={handleDeleteUser}
       />
       <Navigation />
     </>

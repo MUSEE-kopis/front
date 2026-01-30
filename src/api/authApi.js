@@ -1,4 +1,4 @@
-import { get, patch } from './base';
+import { get, patch, del } from './base';
 import { AUTH_URL } from '../constants/api';
 
 export const getOAuthKakaoApi = async (code) => {
@@ -13,5 +13,10 @@ export const getUserInfoApi = async () => {
 
 export const patchUserNicknameApi = async (data) => {
   const response = await patch(AUTH_URL.nickname(data));
+  return response;
+};
+
+export const deleteUserApi = async () => {
+  const response = await del(AUTH_URL.deleteUser);
   return response;
 };
