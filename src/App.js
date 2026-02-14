@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Div } from "./components/common/div";
-import { Main, Detail, Favorite, Search, CreateBook, TicketBook, TicketBookDetail, Mypage, Login, Onboarding, SharedBook, SharedTicketBookDetail, SearchCastMembers } from "./pages";
+import { Main, Detail, Favorite, Search, CreateBook, TicketBook, TicketBookDetail, Mypage, Login, Onboarding, SharedBook, SharedTicketBookDetail, SearchCastMembers, Preference } from "./pages";
 import KakaoRedirectPage from "./components/pages/login/KakaoRedirectPage";
 import { PublicRoute, PrivateRoute } from "./components/auth";
 import { StyledToastConatiner } from "./components/common/Toast";
@@ -23,6 +23,7 @@ const App = () => {
             <Route path="/book-detail/:ticketBookId" element={<TicketBookDetail />} />
             <Route path="/create-book/:performanceId" element={<CreateBook />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/preference" element={<Preference />} />
           </Route>
           <Route path="/shared-book-detail/:ticketBookId" element={<SharedTicketBookDetail />} />
           <Route path="/ticketBooks/share/:id" element={<SharedBook />} />

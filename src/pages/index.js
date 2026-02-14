@@ -11,3 +11,4 @@ export { default as Onboarding } from './Onboarding';
 export { default as SharedBook } from './SharedBook';
 export { default as SharedTicketBookDetail } from './SharedTicketBookDetail';
 export { default as SearchCastMembers } from './SearchCastMembers';
+export { default as Preference } from './Preference';
