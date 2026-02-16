@@ -82,7 +82,7 @@ export const useCreateBook = (id) => {
 
   const handleFileChange = (e) => {
     const fileArr = Array.from(e.target.files);
-    const currentPhotoCount = editData?.photos?.length || 0; // 기존 사진 개수
+    const currentPhotoCount = (editData?.photos?.length || 0) + previewImages.length; // 기존 사진 + 이미 업로드된 사진 개수
     const maxNewPhotos = 3 - currentPhotoCount; // 추가 가능한 사진 개수
     
     // 선택된 파일이 제한을 초과하는 경우 제한만큼만 선택
@@ -92,9 +92,13 @@ export const useCreateBook = (id) => {
       alert(`최대 ${3}장까지만 업로드할 수 있습니다. ${maxNewPhotos}장만 선택되었습니다.`);
     }
     
-    setUploadPhotos(limitedFiles);
-    const fileURLs = limitedFiles.map(file => URL.createObjectURL(file));
-    setPreviewImages(fileURLs);
+    // 기존 업로드된 파일들과 새로운 파일들을 합침
+    const newUploadPhotos = [...uploadPhotos, ...limitedFiles];
+    setUploadPhotos(newUploadPhotos);
+    
+    // 기존 미리보기 이미지들과 새로운 이미지들을 합침
+    const newFileURLs = limitedFiles.map(file => URL.createObjectURL(file));
+    setPreviewImages([...previewImages, ...newFileURLs]);
     
     // 파일 input 초기화 (같은 파일을 다시 선택할 수 있도록)
     e.target.value = '';
